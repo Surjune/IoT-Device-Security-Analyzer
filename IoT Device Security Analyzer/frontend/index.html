@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>IoT Device Security Analyzer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/assets/styles.css?v=10">
+</head>
+
+<body>
+
+<!-- ================= TOP NAV ================= -->
+<header class="topbar">
+  <div class="brand">
+    <h1>IoT Device Security Analyzer</h1>
+    <p>Network Discovery · Vulnerability Intelligence · Risk Prioritization</p>
+  </div>
+
+  <div class="header-status">
+    <span class="pill Green">Local Network</span>
+  </div>
+</header>
+
+<!-- ================= PAGE ================= -->
+<main class="container">
+
+  <!-- ===== INTRO / OVERVIEW ===== -->
+  <section class="card section">
+    <h2>Platform Overview</h2>
+    <p class="hint" style="max-width:900px;font-size:15px;line-height:1.6">
+      This platform provides a comprehensive view of your local network’s IoT security posture.
+      It continuously discovers devices, analyzes real-world vulnerabilities using CVE/NVD intelligence,
+      tracks device presence over time, and prioritizes risks in a clear, actionable manner.
+    </p>
+  </section>
+
+  <!-- ===== HERO / STATUS ===== -->
+  <section class="card section hero">
+    <div class="hero-left">
+      <h2>Network Security Status</h2>
+
+      <p class="hero-desc">
+        Monitor IoT and infrastructure devices connected to your local network.
+        Identify exposed services, known vulnerabilities, and high-risk devices in real time.
+      </p>
+
+      <div id="scan-status" class="hero-status">
+        Ready to scan your network.
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <button id="btn-scan" class="primary hero-btn">
+        Run Network Scan
+      </button>
+
+      <div class="hero-actions">
+        <button id="btn-refresh">Refresh Results</button>
+        <button id="btn-status">View Scan Status</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RISK SUMMARY ===== -->
+  <section class="card section">
+    <h2>Risk Summary</h2>
+    <p class="hint">
+      Devices are categorized using CVE/NVD severity, exposed services,
+      and real-world exploitability with mitigation awareness.
+    </p>
+    <div id="summary"></div>
+  </section>
+
+  <!-- ===== DEVICE INVENTORY ===== -->
+  <section class="card section">
+    <h2>IoT Device Inventory</h2>
+
+    <p class="hint">
+      Displays detected IoT and infrastructure devices only.
+      Personal endpoints are excluded unless they expose IoT-like services.
+    </p>
+
+    <input
+      type="text"
+      id="deviceSearch"
+      class="search"
+      placeholder="Search by IP address, device name, or device type"
+    />
+
+    <div id="devices"></div>
+  </section>
+
+  <!-- ===== DEVICE PRESENCE ===== -->
+  <section class="card section">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <h2 style="margin:0">Device Presence</h2>
+      <span style="font-size:13px;color:#777">Live device activity tracking</span>
+    </div>
+
+    <!-- Legend -->
+    <div class="status-legend"
+         style="display:flex;gap:16px;flex-wrap:wrap;padding:10px 0 14px 0;font-size:13px">
+
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="pill Green">Active</span>
+        <span>Seen in recent scans</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="pill Yellow">New</span>
+        <span>First detected in latest scan</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="pill Red">Offline</span>
+        <span>Not seen recently</span>
+      </div>
+    </div>
+
+    <p class="hint" style="max-width:920px">
+      Tracks when devices were first and last observed during scans.
+      Presence status updates automatically, helping identify newly connected,
+      active, or disconnected devices over time.
+    </p>
+
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>IP Address</th>
+            <th>Device Name</th>
+            <th>Device Type</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="devicePresenceBody">
+          <!-- Filled dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ===== RISK TREND CHART ===== -->
+<section class="card section">
+  <h2>Risk Trend</h2>
+  <p class="hint">
+    Visualizes how the overall network risk changes over time based on detected vulnerabilities
+    and mitigation status.
+  </p>
+  <canvas id="riskChart" height="90"></canvas>
+</section>
+
+  <!-- ===== HOW TO USE ===== -->
+  <section class="card section">
+    <h2 style="font-size:22px">How to Use</h2>
+
+    <p style="font-size:15px;color:#444;max-width:900px;margin-bottom:14px">
+      This tool helps you discover IoT devices, assess their exposure,
+      and prioritize security risks using real-world vulnerability intelligence.
+    </p>
+
+    <ul style="margin:0;padding-left:22px;font-size:15px;color:#333;line-height:1.75">
+
+      <li>
+        <strong>Start a Network Scan</strong><br>
+        Click <em>Run Network Scan</em> to detect active devices on your local network.
+        The analyzer identifies devices using open ports, exposed services,
+        and network behavior.
+      </li>
+
+      <li>
+        <strong>Device Identification</strong><br>
+        Each discovered device is fingerprinted to determine its type
+        (camera, embedded web device, IoT gateway, sensor, etc.)
+        based on protocol and service exposure.
+      </li>
+
+      <li>
+        <strong>Vulnerability Intelligence</strong><br>
+        Detected services are correlated with known CVEs from the
+        National Vulnerability Database (NVD) to identify
+        real-world security weaknesses.
+      </li>
+
+      <li>
+        <strong>Risk Scoring</strong><br>
+        Devices are assigned a risk score and categorized as:
+        <ul style="margin:6px 0 10px 18px;font-size:14px">
+          <li><strong style="color:#1fa64b">Green</strong> — Low or no known risk</li>
+          <li><strong style="color:#e4b000">Yellow</strong> — Moderate exposure</li>
+          <li><strong style="color:#d32f2f">Red</strong> — Critical vulnerabilities or exposed interfaces</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Prioritize Action</strong><br>
+        Devices marked <strong style="color:#d32f2f">Red</strong> may expose
+        unsecured web interfaces, default credentials, or known exploits
+        and should be addressed immediately.
+      </li>
+
+      <li>
+        <strong>Continuous Monitoring</strong><br>
+        Re-run scans periodically to detect newly added devices,
+        configuration changes, or emerging vulnerabilities.
+      </li>
+
+    </ul>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <p style="font-size:13px">
+    IoT Device Security Analyzer · Runs locally · No cloud data collection ·
+    Designed for security analysis, demos, and academic projects
+  </p>
+</footer>
+
+<!-- Main App Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/assets/app.js?v=4"></script>
+</body>
+</html>

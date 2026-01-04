@@ -1,0 +1,7 @@
+Files included:
+- backend/app.py
+- frontend/index.html
+- frontend/assets/styles.css
+- frontend/assets/app.js
+- README.md
+- .env.example
