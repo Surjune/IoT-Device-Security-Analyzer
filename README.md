@@ -76,20 +76,35 @@ uvicorn main:app --reload
 
 ## 📁 Folder Structure
 ```text
-iot-device-security-analyzer/
-├── backend/
-│   ├── main.py
-│   ├── scanner/
-│   ├── analyzer/
-│   └── alerts/
-├── frontend/
-│   ├── index.html
-│   ├── styles.css
-│   └── scripts.js
-├── requirements.txt
-├── .env.example
-├── docker-compose.yml
-└── README.md
+IoT Device Security Analyzer/
+│
+├── .env.example            # Environment variable template
+├── .firebaserc             # Firebase project configuration
+├── firebase.json           # Firebase hosting settings
+├── manifest.txt            # Project dependencies / metadata
+├── README.md               # Project documentation
+├── .gitignore              # Files & folders ignored by Git
+│
+├── .firebase/              # Firebase hosting cache (auto-generated)
+│
+├── .vscode/                # VS Code workspace settings
+│   └── settings.json
+│
+├── backend/                # Backend (FastAPI)
+│   ├── app.py              # Main FastAPI application
+│   └── __pycache__/        # Python cache files
+│
+├── frontend/               # Frontend (HTML, CSS, JavaScript)
+│   ├── index.html          # Main UI page
+│   └── assets/
+│       ├── app.js          # Frontend logic
+│       └── styles.css      # Styling
+│
+├── data/                   # Application data
+│   └── iot_data.db         # SQLite database
+│
+└── logs/                   # Application logs
+
 ```
 
 
